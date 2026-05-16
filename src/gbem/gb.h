@@ -14,7 +14,7 @@
  #define GB_CPU_FILE
 
  #include <stdint.h>
- #include <./cpu.h>
+ #include <gbem/cpu/cpu.h>
 
  #define CPU_CLOCK_SPEED_MHZ 4.194304
  #define HORIZONTAL_SYNC_KHZ 9.198
