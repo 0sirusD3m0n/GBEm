@@ -30,4 +30,16 @@
     };
  } gbem_register_t;
 
+ typedef enum {
+    GB_OPCODE_NOP       = 0x00,
+    GB_OPCODE_LD_BC_N16 = 0x01,
+    GB_OPCODE_LD_BC_A   = 0x02,
+    GB_OPCODE_INC_BC    = 0x03,
+    GB_OPCODE_INC_B     = 0x04,
+    GB_OPCODE_DEC_B     = 0x05,
+    GB_OPCODE_LD_B_N8   = 0x06,
+    GB_OPCODE_RLCA      = 0x07,
+    GB_OPCODE_LD_A16_SP = 0x10
+ } GB_OPCODE_LOOKUP;
+
  #endif
