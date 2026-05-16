@@ -30,6 +30,18 @@
     };
  } gbem_register_t;
 
+  typedef struct
+ {
+    gbem_register_t AF;
+    gbem_register_t BC;
+    gbem_register_t DE;
+    gbem_register_t HL;
+    uint8_t IR;  // Instruction register
+    uint16_t PC; // Program counter
+    uint16_t SP; // Stack pointer
+ } gbem_cpu_t;
+
+ /* Depreciated
  typedef enum {
     GB_OPCODE_NOP       = 0x00,
     GB_OPCODE_LD_BC_N16 = 0x01,
@@ -41,5 +53,7 @@
     GB_OPCODE_RLCA      = 0x07,
     GB_OPCODE_LD_A16_SP = 0x10
  } GB_OPCODE_LOOKUP;
+ */
+ 
 
  #endif

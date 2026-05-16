@@ -5,7 +5,7 @@
  */
 
  #include <stdint.h>
- #include "./include/gb.h"
+ #include "gb.h"
 
  static uint8_t* registers;
 
