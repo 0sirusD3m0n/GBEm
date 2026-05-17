@@ -17,11 +17,11 @@
   * Allocates memory for the CPU object and the register array
   * 
   */
- void GB_INIT(gbem_cpu_t* cpu) {
-    cpu = malloc(sizeof(gbem_cpu_t));
+ void GB_INIT(gb_cpu_t* cpu) {
+    cpu = malloc(sizeof(gb_cpu_t));
 
  }
 
- void GB_DESTROY(gbem_cpu_t* cpu)  {
+ void GB_DESTROY(gb_cpu_t* cpu)  {
     free(cpu);
  }
