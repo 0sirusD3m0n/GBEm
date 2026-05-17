@@ -1,4 +1,6 @@
 
+#ifndef GBEM_BUS_H
+#define GBEM_BUS_H
 #include <stdint.h>
 
 #include "gbem/gb.h"
@@ -22,3 +24,5 @@
 #define GB_IE_REG           0xFFFF
 
 uint8_t mem_read(gb_t * gb, uint16_t addr);
+
+#endif

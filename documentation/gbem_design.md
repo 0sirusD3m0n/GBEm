@@ -54,7 +54,6 @@ typedef struct {
     gb_cpu_t        cpu;
     gb_ram_t        ram;
     gb_ppu_t        ppu;
-    gb_bus_t        bus;
     gb_cart_t       cart;
     gb_timer_t      timer;
     gb_interrupt_t  interrupts;
@@ -72,7 +71,7 @@ void        gb_tick(gb_t *gb);        // advance one M-cycle
 void        gb_run_frame(gb_t *gb);   // advance one full frame (17556 M-cycles)
 ```
 
-`gb_init` initializes components in dependency order — cartridge first, then bus, then CPU and peripherals. `gb_free` cleans up any heap allocations (ROM data etc).
+`gb_init` initializes components in dependency order - cartridge first, then bus, then CPU and peripherals. `gb_free` cleans up any heap allocations (ROM data etc).
 
 ### Main Loop
 

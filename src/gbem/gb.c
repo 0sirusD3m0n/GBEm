@@ -17,9 +17,8 @@
   * Allocates memory for the CPU object and the register array
   * 
   */
- void GB_INIT(gb_cpu_t* cpu) {
-    cpu = malloc(sizeof(gb_cpu_t));
-
+ void GB_INIT(gb_t* gb) {
+    memset(*gb, 0, sizeof(gb_t));
  }
 
  void GB_DESTROY(gb_cpu_t* cpu)  {

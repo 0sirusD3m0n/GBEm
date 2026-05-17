@@ -1,3 +1,13 @@
+/**
+ * bus.c
+ * Contains the function definitons
+ * and for the bus
+ * 
+ * @author T. Aldridge
+ * @version 0.10
+ * @date 05/16/2026
+ */
+
 #include "bus.h"
 
 uint8_t mem_read(gb_t * gb, uint16_t addr) {
