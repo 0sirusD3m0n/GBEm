@@ -16,9 +16,11 @@
  #include <stdint.h>
  #include <gbem/cpu/cpu.h>
 
- #define CPU_CLOCK_SPEED_MHZ 4.194304
+ 
  #define HORIZONTAL_SYNC_KHZ 9.198
  #define VERTICAL_SYNC_MHZ   59.73
  
- 
+ typedef struct {
+    gb_cpu_t cpu;
+ } gb_t;
   #endif

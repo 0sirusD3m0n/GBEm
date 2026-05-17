@@ -12,6 +12,12 @@
  #define GBEM_CPU_H
  
  #include <stdint.h>
+ #include "gbem/memory/bus.h"
+ #include "gbem/gb.h"
+
+ #define GB_CPU_CLOCK_HZ        4194304
+ #define GB_CPU_COCCK_M_HZ      1048576
+ #define GB_M_CYCLES_PER_FRAME  17556
 
  typedef union {
     uint16_t word;
@@ -25,35 +31,24 @@
                 uint8_t sub        : 1;
                 uint8_t zero       : 1;
             };
-            uint8_t high;
         };
+    uint8_t high;    
     };
- } gbem_register_t;
+ } gb_register_t;
 
   typedef struct
  {
-    gbem_register_t AF;
-    gbem_register_t BC;
-    gbem_register_t DE;
-    gbem_register_t HL;
+    gb_register_t AF;
+    gb_register_t BC;
+    gb_register_t DE;
+    gb_register_t HL;
     uint8_t IR;  // Instruction register
     uint16_t PC; // Program counter
     uint16_t SP; // Stack pointer
- } gbem_cpu_t;
+ } gb_cpu_t;
 
- /* Depreciated
- typedef enum {
-    GB_OPCODE_NOP       = 0x00,
-    GB_OPCODE_LD_BC_N16 = 0x01,
-    GB_OPCODE_LD_BC_A   = 0x02,
-    GB_OPCODE_INC_BC    = 0x03,
-    GB_OPCODE_INC_B     = 0x04,
-    GB_OPCODE_DEC_B     = 0x05,
-    GB_OPCODE_LD_B_N8   = 0x06,
-    GB_OPCODE_RLCA      = 0x07,
-    GB_OPCODE_LD_A16_SP = 0x10
- } GB_OPCODE_LOOKUP;
- */
  
+ // Function declaration
+ uint8_t fetch (gb_t *gb);
 
  #endif
