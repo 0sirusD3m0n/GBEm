@@ -8,3 +8,40 @@
  * @version 0.10
  * @date 05/16/2026
  */
+ #include "cpu.h"
+ #include "handlers/handlers.h"
+
+ static const gb_opcode_handler_t uc_table[256]  = {
+    [0x00] = gb_handler_nop,
+    [0x10] = gb_handler_stop,
+    [0x67] = gb_handler_halt,
+ };
+
+
+
+ uint8_t read_r8(gb_t *gb, uint8_t idx) {
+    switch (idx) {
+        case 0: return gb->cpu.BC.high; break;
+        case 1: return gb->cpu.BC.low; break;
+        case 2: return gb->cpu.DE.high; break;
+        case 3: return gb->cpu.DE.low; break;
+        case 4: return gb->cpu.HL.high; break;
+        case 5: return gb->cpu.HL.low; break;
+        case 6: return mem_read(gb, gb->cpu.HL.word);
+        case 7: return gb->cpu.AF.high; break;
+        default: return 0; 
+    }
+ }
+
+ uint8_t write_r8(gb_t *gb, uint8_t idx, uint8_t value) {
+    switch (idx) {
+        case 0:  gb->cpu.BC.high = value; break;
+        case 1:  gb->cpu.BC.low = value; break;
+        case 2:  gb->cpu.DE.high = value; break;
+        case 3:  gb->cpu.DE.low = value; break;
+        case 4:  gb->cpu.HL.high = value; break;
+        case 5:  gb->cpu.HL.low = value; break;
+        case 6:  mem_write(gb, gb->cpu.HL.word, value);
+        case 7:  gb->cpu.AF.high = value; break;
+    }
+ }

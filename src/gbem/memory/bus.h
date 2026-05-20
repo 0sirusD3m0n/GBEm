@@ -23,6 +23,8 @@
 #define GB_HRAM_END         0xFFFE
 #define GB_IE_REG           0xFFFF
 
-uint8_t mem_read(gb_t * gb, uint16_t addr);
+#define GB_ECHO_OFFSET      0x2000
 
+uint8_t mem_read(gb_t * gb, uint16_t addr);
+void mem_write(gb_t *gb, uint16_t addr, uint8_t value);
 #endif

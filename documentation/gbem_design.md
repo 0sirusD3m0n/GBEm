@@ -18,7 +18,6 @@ gbem/
 ├── gb.h/c              - Top level, owns gb_t, init/free/run
 ├── cpu/
 │   ├── cpu.h/c         - CPU state, fetch, main execution loop
-│   ├── decode.h/c      - Opcode tables, x/y/z decode helpers, register tables
 │   └── handlers/
 │       ├── ld.h/c      - All load instructions
 │       ├── alu.h/c     - ADD, ADC, SUB, SBC, AND, XOR, OR, CP

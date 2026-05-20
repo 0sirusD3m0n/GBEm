@@ -12,3 +12,6 @@ typedef struct {
 } gb_ram_t;
 
 uint8_t ram_wram_read(gb_ram_t * ram, uint16_t addr);
+uint8_t ram_hram_read(gb_ram_t * ram, uint16_t addr);
+void ram_wram_write(gb_ram_t *ram, uint16_t addr, uint8_t value);
+void ram_hram_write(gb_ram_t *ram, uint16_t addr, uint8_t value);

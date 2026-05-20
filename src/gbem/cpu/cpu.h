@@ -12,6 +12,7 @@
  #define GBEM_CPU_H
  
  #include <stdint.h>
+ #include <stdbool.h>
  #include "gbem/memory/bus.h"
  #include "gbem/gb.h"
 
@@ -45,10 +46,19 @@
     uint8_t IR;  // Instruction register
     uint16_t PC; // Program counter
     uint16_t SP; // Stack pointer
+    bool ime; //interupt register
+    bool halted; // check halted status
+    bool stopped;
+    bool ime_pending;
  } gb_cpu_t;
 
- 
+ typedef uint8_t (*gb_opcode_handler_t)(gb_t *gb);
+
  // Function declaration
  uint8_t fetch (gb_t *gb);
+ uint16_t fetch16(gb_t *gb);
+ uint8_t cpu_step(gb_t *gb);
+ uint8_t write_r8(gb_t *gb, uint8_t idx, uint8_t value);
+ uint8_t read_r8(gb_t *gb, uint8_t idx);
 
  #endif
