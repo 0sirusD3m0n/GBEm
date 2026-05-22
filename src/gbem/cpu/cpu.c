@@ -66,6 +66,7 @@
       default: return;
    }
  }
+
 uint16_t read_r16mem(gb_t *gb, uint8_t idx) {
    switch(idx) {
       case 0: return gb->cpu.BC.word;
@@ -75,6 +76,27 @@ uint16_t read_r16mem(gb_t *gb, uint8_t idx) {
       default: return 0xFFFF;
    }
  }
+
+ uint16_t read_r16_stk(gb_t *gb, uint8_t idx) {
+   switch(idx) {
+      case 0: return gb->cpu.BC.word; break;
+      case 1: return gb->cpu.DE.word; break;
+      case 2: return gb->cpu.HL.word; break;
+      case 3: return gb->cpu.AF.word; break;
+      default: return 0xFFFF;
+   }
+ }
+
+ void write_r16_stk(gb_t *gb, uint8_t idx, uint16_t value) {
+   switch(idx) {
+      case 0: gb->cpu.BC.word = value; break;
+      case 1: gb->cpu.DE.word = value; break;
+      case 2: gb->cpu.HL.word = value; break;
+      case 3: gb->cpu.AF.word = value; break;
+      default: return;
+   }
+ }
+
  uint8_t fetch(gb_t *gb) {
    return mem_read(gb, gb->cpu.PC++);
  }
@@ -83,4 +105,16 @@ uint16_t read_r16mem(gb_t *gb, uint8_t idx) {
    uint8_t low = fetch(gb);
    uint8_t high = fetch(gb);
    return ((uint16_t)high << 8) | low;
+ }
+
+ uint16_t stack_pop(gb_t *gb) {
+   uint8_t low = mem_read(gb, gb->cpu.SP++);
+   uint8_t high = mem_read(gb, gb->cpu.SP++);
+
+   return ((uint16_t)high << 8) | low;
+ }
+
+ void stack_push(gb_t *gb, uint16_t val) {
+   mem_write(gb, --gb->cpu.SP, (val >> 8) & 0xFF);
+   mem_write(gb, --gb->cpu.SP, val & 0xFF);
  }

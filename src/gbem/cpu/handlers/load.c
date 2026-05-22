@@ -34,7 +34,7 @@ uint8_t gb_handler_ld_r16mem_a(gb_t *gb) {
 
 // LD A, [r16mem]
 uint8_t gb_handler_ld_a_r16mem(gb_t *gb) {
-    uint16_t src = (gb->cpu.IR >> 4) & 0x03;
+    uint8_t src = (gb->cpu.IR >> 4) & 0x03;
     write_r8(gb, GB_REGISTER_A, read_r16mem(gb, src));
     return 2;
 }
@@ -82,4 +82,51 @@ uint8_t gb_handler_ldh_a_n8(gb_t *gb) {
     uint8_t data = mem_read(gb, addr);
     write_r8(gb, GB_REGISTER_A, data);
     return 3;
+}
+
+// LD A, [n16]
+uint8_t gb_handler_ld_a_n16mem(gb_t *gb) {
+    uint16_t addr = fetch16(gb);
+    uint8_t data = mem_read(gb, addr);
+    write_r8(gb, GB_REGISTER_A, data);
+    return 4;
+}
+
+// LD HL, SP + e8
+uint8_t gb_handler_ld_hl_sp_e8(gb_t *gb) {
+    int8_t e = (int8_t)fetch(gb);
+    uint16_t sp = read_r16(gb, GB_REGISTER16_SP);
+    uint16_t value = sp + e;
+    gb->cpu.AF.half_carry = ((sp & 0x0F) + (e & 0x0F)) > 0x0F;
+    gb->cpu.AF.carry = ((sp & 0xFF) + (e & 0xFF)) > 0xFF;
+    gb->cpu.AF.sub = 0;
+    gb->cpu.AF.zero = 0;
+    gb->cpu.HL.word = value;
+
+    return 3;
+}
+
+// LD SP, HL
+uint8_t gb_handler_ld_sp_hl(gb_t *gb) {
+    gb->cpu.SP = gb->cpu.HL.word;
+
+    return 2;
+}
+
+// POP R16
+uint8_t gb_handler_pop_r16(gb_t *gb) {
+    uint8_t dest = (gb->cpu.IR >> 4) & 0x03;
+    uint16_t value = stack_pop(gb);
+    write_r16_stk(gb, dest, value);
+
+    if (dest == 0x03) gb->cpu.AF.low &= 0xF0;
+    return 3;
+}
+
+// PUSH R16
+uint8_t gb_handler_push_r16(gb_t *gb) {
+    uint8_t src = (gb->cpu.IR >> 4) & 0x03;
+    uint16_t data = read_r16_stk(gb, src);
+    stack_push(gb, data);
+    return 4;
 }

@@ -23,7 +23,16 @@
  #define GB_REGISTER_A 0x07
  #define GB_REGISTER_B 0x00
  #define GB_REGISTER_C 0x01
+ #define GB_REGISTER_D 0x02
+ #define GB_REGISTER_E 0x03
+ #define GB_REGISTER_H 0x04
+ #define GB_REGISTER_L 0x05
+ #define GB_REGISTER_HL_MEM 0x06
  
+ #define GB_REGISTER16_BC 0x00
+ #define GB_REGISTER16_DE 0x01
+ #define GB_REGISTER16_HL 0x02
+ #define GB_REGISTER16_SP 0x03
 
  typedef union {
     uint16_t word;
@@ -67,5 +76,9 @@
  uint8_t read_r8(gb_t *gb, uint8_t idx);
  uint16_t read_r16(gb_t *gb, uint8_t idx);
  void write_r16(gb_t *gb, uint8_t idx, uint16_t value);
+ uint16_t read_r16_stk(gb_t *gb, uint8_t idx);
+ void write_r16_stk(gb_t *gb, uint8_t idx, uint16_t value);
+ void stack_push(gb_t *gb, uint16_t val);
+ uint16_t stack_pop(gb_t *gb);
 
  #endif
