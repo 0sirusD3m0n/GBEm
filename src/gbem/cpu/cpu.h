@@ -20,6 +20,11 @@
  #define GB_CPU_COCCK_M_HZ      1048576
  #define GB_M_CYCLES_PER_FRAME  17556
 
+ #define GB_REGISTER_A 0x07
+ #define GB_REGISTER_B 0x00
+ #define GB_REGISTER_C 0x01
+ 
+
  typedef union {
     uint16_t word;
     struct {
@@ -58,7 +63,9 @@
  uint8_t fetch (gb_t *gb);
  uint16_t fetch16(gb_t *gb);
  uint8_t cpu_step(gb_t *gb);
- uint8_t write_r8(gb_t *gb, uint8_t idx, uint8_t value);
+ void write_r8(gb_t *gb, uint8_t idx, uint8_t value);
  uint8_t read_r8(gb_t *gb, uint8_t idx);
+ uint16_t read_r16(gb_t *gb, uint8_t idx);
+ void write_r16(gb_t *gb, uint8_t idx, uint16_t value);
 
  #endif

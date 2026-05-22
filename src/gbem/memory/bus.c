@@ -33,5 +33,4 @@ void mem_write(gb_t *gb, uint16_t addr, uint8_t value) {
     else if (addr >= GB_IO_REG_START && addr <= GB_IO_REG_END) return; // TODO: Update to io_write in joypad.c 
     else if (addr >= GB_HRAM_START && addr <= GB_HRAM_END) { ram_hram_write(&gb->ram, addr, value); return; }
     else if (addr == GB_IE_REG) return; // TODO: Update to interupt_write() in interupt.c
-    else return; // unusable region 0xFEA0-0xFEFF and any other unmapped addresses
-}
+    else return; //

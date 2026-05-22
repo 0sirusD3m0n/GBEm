@@ -14,9 +14,13 @@ uint8_t gb_handler_prefix(gb_t *gb);
 
 //alu
 uint8_t gb_handler_adc_r8(gb_t *gb);
+
 //ld/rd
+uint8_t gb_handler_ld_r8_r8(gb_t *gb);
 
 //control
 
 //bit
+
+
 #endif
