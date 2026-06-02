@@ -13,10 +13,32 @@ uint8_t gb_handler_ei(gb_t *gb);
 uint8_t gb_handler_prefix(gb_t *gb);
 
 //alu
-uint8_t gb_handler_adc_r8(gb_t *gb);
-uint8_t gb_handler_inc_rr16(gb_t *gb);
+uint8_t gb_handler_inc_r16(gb_t *gb);
 uint8_t gb_handler_dec_r16(gb_t *gb);
 uint8_t gb_handler_add_hl_r16(gb_t *gb);
+uint8_t gb_handler_inc_r8(gb_t *gb);
+uint8_t gb_handler_dec_r8(gb_t * gb);
+uint8_t gb_handler_add_a_r8(gb_t *gb);
+uint8_t gb_handler_adc_a_r8(gb_t *gb);
+uint8_t gb_handler_sub_a_r8(gb_t *gb);
+uint8_t gb_handler_sbc_a_r8(gb_t *gb);
+uint8_t gb_handler_and_a_r8(gb_t *gb);
+uint8_t gb_handler_xor_a_r8(gb_t *gb);
+uint8_t gb_handler_or_a_r8(gb_t *gb);
+uint8_t gb_handler_cp_a_r8(gb_t *gb);
+uint8_t gb_handler_add_a_n8(gb_t *gb);
+uint8_t gb_handler_adc_a_n8(gb_t *gb);
+uint8_t gb_handler_sub_a_n8(gb_t *gb);
+uint8_t gb_handler_sbc_a_n8(gb_t *gb);
+uint8_t gb_handler_and_a_n8(gb_t *gb);
+uint8_t gb_handler_xor_a_n8(gb_t *gb);
+uint8_t gb_handler_or_a_n8(gb_t *gb);
+uint8_t gb_handler_cp_a_n8(gb_t *gb);
+uint8_t gb_handler_add_sp_e8(gb_t *gb);
+uint8_t gb_handler_daa(gb_t *gb);
+uint8_t gb_handler_cpl(gb_t *gb);
+uint8_t gb_handler_scf(gb_t *gb);
+uint8_t gb_handler_ccf(gb_t *gb);
 
 //ld/rd
 uint8_t gb_handler_ld_r8_r8(gb_t *gb);
