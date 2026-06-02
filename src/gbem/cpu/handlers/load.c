@@ -99,7 +99,7 @@ uint8_t gb_handler_ld_hl_sp_e8(gb_t *gb) {
     uint16_t value = sp + e;
     gb->cpu.AF.half_carry = ((sp & 0x0F) + (e & 0x0F)) > 0x0F;
     gb->cpu.AF.carry = ((sp & 0xFF) + (e & 0xFF)) > 0xFF;
-    gb->cpu.AF.sub = 0;
+    gb->cpu.AF.negative = 0;
     gb->cpu.AF.zero = 0;
     gb->cpu.HL.word = value;
 

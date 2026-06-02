@@ -43,7 +43,7 @@
                 uint8_t            : 4; // padding
                 uint8_t carry      : 1;
                 uint8_t half_carry : 1;
-                uint8_t sub        : 1;
+                uint8_t negative   : 1;
                 uint8_t zero       : 1;
             };
         };

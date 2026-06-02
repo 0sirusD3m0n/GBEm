@@ -14,6 +14,9 @@ uint8_t gb_handler_prefix(gb_t *gb);
 
 //alu
 uint8_t gb_handler_adc_r8(gb_t *gb);
+uint8_t gb_handler_inc_rr16(gb_t *gb);
+uint8_t gb_handler_dec_r16(gb_t *gb);
+uint8_t gb_handler_add_hl_r16(gb_t *gb);
 
 //ld/rd
 uint8_t gb_handler_ld_r8_r8(gb_t *gb);
