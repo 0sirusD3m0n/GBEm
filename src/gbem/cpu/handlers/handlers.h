@@ -79,4 +79,13 @@ uint8_t gb_handler_rla(gb_t *gb);
 uint8_t gb_handler_rra(gb_t *gb);
 uint8_t gb_handler_rlc_r8(gb_t *gb);
 uint8_t gb_handler_rrc_r8(gb_t *gb);
+uint8_t gb_handler_rl_r8(gb_t *gb);
+uint8_t gb_handler_rr_r8(gb_t *gb);
+uint8_t gb_handler_sla_r8(gb_t *gb);
+uint8_t gb_handler_sra_r8(gb_t *gb);
+uint8_t gb_handler_swap_r8(gb_t *gb);
+uint8_t gb_handler_srl_r8(gb_t *gb);
+uint8_t gb_handler_bit_u3_r8(gb_t *gb);
+uint8_t gb_handler_res_u3_r8(gb_t *gb);
+uint8_t gb_handler_set_u3_r8(gb_t *gb);
 #endif

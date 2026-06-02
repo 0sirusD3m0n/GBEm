@@ -163,3 +163,52 @@ uint8_t gb_handler_swap_r8(gb_t *gb) {
     write_r8(gb, idx, result);
     return (idx == GB_REGISTER_HL_MEM) ? 4 : 2;
 }
+
+uint8_t gb_handler_srl_r8(gb_t *gb) {
+     uint8_t idx = gb->cpu.IR & 0x07;
+
+    uint8_t data = read_r8(gb, idx);
+    uint8_t b0 = data & 0x01;
+
+    data = data >> 1;
+
+    gb->cpu.AF.low = 0x00;
+    gb->cpu.AF.zero = data == 0;
+    gb->cpu.AF.carry = b0;
+
+    write_r8(gb, idx, data);
+    return (idx == GB_REGISTER_HL_MEM) ? 4 : 2;
+}
+
+uint8_t gb_handler_bit_u3_r8(gb_t *gb) {
+    uint8_t idx = gb->cpu.IR & 0x07;
+    uint8_t data = read_r8(gb, idx);
+    uint8_t bit = (gb->cpu.IR >> 3) & 0x07;
+
+    gb->cpu.AF.zero = !((data >> bit) & 0x01);
+    gb->cpu.AF.negative = 0;
+    gb->cpu.AF.half_carry = 1;
+    return (idx == GB_REGISTER_HL_MEM) ? 3 : 2;
+}
+
+uint8_t gb_handler_res_u3_r8(gb_t *gb) {
+    uint8_t idx = gb->cpu.IR & 0x07;
+    uint8_t bit = (gb->cpu.IR >> 3) & 0x07;
+    uint8_t data = read_r8(gb, idx);
+
+    data &= ~(1 << bit);
+
+    write_r8(gb, idx, data);
+    return (idx == GB_REGISTER_HL_MEM) ? 4 : 2;
+}
+
+uint8_t gb_handler_set_u3_r8(gb_t *gb) {
+    uint8_t idx = gb->cpu.IR & 0x07;
+    uint8_t bit = (gb->cpu.IR >> 3) & 0x07;
+    uint8_t data = read_r8(gb, idx);
+
+    data |= 1 << bit;
+
+    write_r8(gb, idx, data);
+    return (idx == GB_REGISTER_HL_MEM) ? 4 : 2;
+}

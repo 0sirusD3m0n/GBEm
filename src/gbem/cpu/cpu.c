@@ -118,3 +118,7 @@ uint16_t read_r16mem(gb_t *gb, uint8_t idx) {
    mem_write(gb, --gb->cpu.SP, (val >> 8) & 0xFF);
    mem_write(gb, --gb->cpu.SP, val & 0xFF);
  }
+
+ void cpu_tick(gb_t *gb) {
+  
+ }
