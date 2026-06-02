@@ -9,6 +9,7 @@
 uint8_t gb_handler_nop(gb_t *gb);
 uint8_t gb_handler_halt(gb_t *gb);
 uint8_t gb_handler_stop(gb_t *gb);
+uint8_t gb_handler_di(gb_t *gb);
 uint8_t gb_handler_ei(gb_t *gb);
 uint8_t gb_handler_prefix(gb_t *gb);
 
@@ -59,8 +60,23 @@ uint8_t gb_handler_pop_r16(gb_t *gb);
 uint8_t gb_handler_push_r16(gb_t *gb);
 
 //control
+uint8_t gb_handler_jr_n8(gb_t *gb);
+uint8_t gb_handler_jr_cc_n8(gb_t *gb);
+uint8_t gb_handler_ret_cc(gb_t *gb);
+uint8_t gb_handler_ret(gb_t *gb);
+uint8_t gb_handler_reti(gb_t *gb);
+uint8_t gb_handler_jp_cc_n16(gb_t *gb);
+uint8_t gb_handler_jp_n16(gb_t *gb);
+uint8_t gb_handler_jp_hl(gb_t *gb);
+uint8_t gb_handler_call_cc_n16(gb_t *gb);
+uint8_t gb_handler_call_n16(gb_t *gb);
+uint8_t gb_handler_rst(gb_t *gb);
 
 //bit
-
-
+uint8_t gb_handler_rlca(gb_t *gb);
+uint8_t gb_handler_rrca(gb_t *gb);
+uint8_t gb_handler_rla(gb_t *gb);
+uint8_t gb_handler_rra(gb_t *gb);
+uint8_t gb_handler_rlc_r8(gb_t *gb);
+uint8_t gb_handler_rrc_r8(gb_t *gb);
 #endif
