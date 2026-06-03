@@ -17,6 +17,7 @@
  #include "gbem/cpu/cpu.h"
  #include "gbem/memory/ram.h"
  #include "gbem/cart/cart.h"
+ #include "gbem/interrupt.h"
  
  /* TODO: MOVE TO PPU WHEN FINISHED
     #define HORIZONTAL_SYNC_KHZ 9.198
@@ -28,6 +29,7 @@
     gb_cpu_t cpu;
     gb_ram_t ram;
     gb_cart_t cart;
+    gb_interrupt_t interrupts;
  } gb_t;
 
 typedef enum {

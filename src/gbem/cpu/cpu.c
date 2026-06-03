@@ -14,11 +14,28 @@
  
  static const gb_opcode_handler_t uc_table[256]  = {
     [0x00] = gb_handler_nop,
+    [0x01] = gb_handler_ld_r16_n16,
+    [0x02] = gb_handler_ld_r16mem_a,
+    [0x03] = gb_handler_inc_r16,
+    [0x04] = gb_handler_inc_r8,
+    [0x05] = gb_handler_dec_r8,
+    [0x06] = gb_handler_ld_r8_n8,
+    [0x07] = gb_handler_rlca,
+    [0x08] = gb_handler_ld_n16mem_sp,
+    [0x09] = gb_handler_add_hl_r16,
+    [0x0A] = gb_handler_ld_a_r16mem,
+    [0x0B] = gb_handler_dec_r16,
+    [0x0C] = gb_handler_inc_r8,
+    [0x0D] = gb_handler_dec_r8,
+    [0x0E] = gb_handler_ld_r8_n8,
+    [0x0F] = gb_handler_rrca,
     [0x10] = gb_handler_stop,
-    [0x67] = gb_handler_halt,
+    [0x76] = gb_handler_halt,
  };
 
+ static const gb_opcode_handler_t cb_table[256] = {
 
+ };
 
  uint8_t read_r8(gb_t *gb, uint8_t idx) {
     switch (idx) {
@@ -120,5 +137,9 @@ uint16_t read_r16mem(gb_t *gb, uint8_t idx) {
  }
 
  void cpu_tick(gb_t *gb) {
-  
+    // Fetch the next opcode.
+    uint8_t opcode = fetch(gb);
+
+    //process interupts.
+    
  }
