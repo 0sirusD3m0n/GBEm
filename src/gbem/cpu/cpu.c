@@ -13,25 +13,26 @@
 
  
  static const gb_opcode_handler_t uc_table[256]  = {
-    [0x00] = gb_handler_nop,
-    [0x01] = gb_handler_ld_r16_n16,
-    [0x02] = gb_handler_ld_r16mem_a,
-    [0x03] = gb_handler_inc_r16,
-    [0x04] = gb_handler_inc_r8,
-    [0x05] = gb_handler_dec_r8,
-    [0x06] = gb_handler_ld_r8_n8,
-    [0x07] = gb_handler_rlca,
-    [0x08] = gb_handler_ld_n16mem_sp,
-    [0x09] = gb_handler_add_hl_r16,
-    [0x0A] = gb_handler_ld_a_r16mem,
-    [0x0B] = gb_handler_dec_r16,
-    [0x0C] = gb_handler_inc_r8,
-    [0x0D] = gb_handler_dec_r8,
-    [0x0E] = gb_handler_ld_r8_n8,
-    [0x0F] = gb_handler_rrca,
-    [0x10] = gb_handler_stop,
+    [0x00] = gb_handler_nop, [0x01] = gb_handler_ld_r16_n16, [0x02] = gb_handler_ld_r16mem_a, [0x03] = gb_handler_inc_r16, [0x04] = gb_handler_inc_r8, [0x05] = gb_handler_dec_r8, [0x06] = gb_handler_ld_r8_n8, [0x07] = gb_handler_rlca, [0x08] = gb_handler_ld_n16mem_sp, [0x09] = gb_handler_add_hl_r16, [0x0A] = gb_handler_ld_a_r16mem, [0x0B] = gb_handler_dec_r16, [0x0C] = gb_handler_inc_r8, [0x0D] = gb_handler_dec_r8, [0x0E] = gb_handler_ld_r8_n8, [0x0F] = gb_handler_rrca,
+    [0x10] = gb_handler_stop, [0x10] = gb_handler_stop, [0x11] = gb_handler_ld_r16_n16, [0x12] = gb_handler_ld_r16mem_a, [0x13] = gb_handler_inc_r16, [0x14] = gb_handler_inc_r8, [0x15] = gb_handler_dec_r8, [0x16] = gb_handler_ld_r8_n8, [0x17] = gb_handler_rla, [0x18] = gb_handler_jr_n8, [0x19] = gb_handler_add_hl_r16, [0x1A] = gb_handler_ld_a_r16mem, [0x1B] = gb_handler_dec_r16, [0x1C] = gb_handler_inc_r8, [0x1D] = gb_handler_dec_r8, [0x1E] = gb_handler_ld_r8_n8, [0x1F] = gb_handler_rra,
+    [0x20] = gb_handler_jr_cc_n8,
+    [0x21] = gb_handler_ld_r16_n16,
+    [0x22] = gb_handler_ld_r16mem_a,
+    [0x23] = gb_handler_inc_r16,
+    [0x24] = gb_handler_inc_r8,
+    [0x25] = gb_handler_dec_r8,
+    [0x26] = gb_handler_ld_r8_n8,
+    [0x27] = gb_handler_daa,
+    [0x28] = gb_handler_jr_cc_n8,
+    [0x29] = gb_handler_add_hl_r16,
+    [0x2A] = gb_handler_ld_a_r16mem,
+    [0x2B] = gb_handler_dec_r16,
+    [0x2C] = gb_handler_inc_r8,
+    [0x2D] = gb_handler_dec_r8,
+    [0x2E] = gb_handler_ld_r8_n8,
+    [0x2F] = gb_handler_cpl,
     [0x76] = gb_handler_halt,
- };
+   };
 
  static const gb_opcode_handler_t cb_table[256] = {
 
@@ -137,9 +138,14 @@ uint16_t read_r16mem(gb_t *gb, uint8_t idx) {
  }
 
  void cpu_tick(gb_t *gb) {
-    // Fetch the next opcode.
-    uint8_t opcode = fetch(gb);
+   //process interupts
 
-    //process interupts.
-    
+   //set interupts if ime_pending == 1
+   if(gb->cpu.ime_pending) gb->cpu.ime = true;
+
+   // Fetch the next opcode.
+   uint8_t opcode = fetch(gb);
+
+   //process task
+
  }
