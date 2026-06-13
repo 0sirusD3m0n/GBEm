@@ -69,6 +69,8 @@
 
  typedef uint8_t (*gb_opcode_handler_t)(gb_t *gb);
 
+ extern const gb_opcode_handler_t cb_table[256];
+ 
  // Function declaration
  uint8_t fetch (gb_t *gb);
  uint16_t fetch16(gb_t *gb);

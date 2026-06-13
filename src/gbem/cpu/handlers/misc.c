@@ -25,3 +25,8 @@ uint8_t gb_handler_di(gb_t *gb) {
     gb->cpu.ime_pending = false;
     return 1;
 }
+
+uint8_t gb_handler_prefix(gb_t *gb) {
+    gb->cpu.IR = fetch(gb);
+    return cb_table[gb->cpu.IR](gb);
+}

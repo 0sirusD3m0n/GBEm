@@ -11,30 +11,27 @@
  #include "cpu.h"
  #include "handlers/handlers.h"
 
+ static const gb_opcode_handler_t uc_table[256] = {
+    [0x00]=gb_handler_nop,       [0x01]=gb_handler_ld_r16_n16,  [0x02]=gb_handler_ld_r16mem_a, [0x03]=gb_handler_inc_r16,     [0x04]=gb_handler_inc_r8,       [0x05]=gb_handler_dec_r8,      [0x06]=gb_handler_ld_r8_n8,    [0x07]=gb_handler_rlca,        [0x08]=gb_handler_ld_n16mem_sp, [0x09]=gb_handler_add_hl_r16,  [0x0A]=gb_handler_ld_a_r16mem,  [0x0B]=gb_handler_dec_r16,     [0x0C]=gb_handler_inc_r8,      [0x0D]=gb_handler_dec_r8,      [0x0E]=gb_handler_ld_r8_n8,    [0x0F]=gb_handler_rrca,
+    [0x10]=gb_handler_stop,      [0x11]=gb_handler_ld_r16_n16,  [0x12]=gb_handler_ld_r16mem_a, [0x13]=gb_handler_inc_r16,     [0x14]=gb_handler_inc_r8,       [0x15]=gb_handler_dec_r8,      [0x16]=gb_handler_ld_r8_n8,    [0x17]=gb_handler_rla,         [0x18]=gb_handler_jr_n8,        [0x19]=gb_handler_add_hl_r16,  [0x1A]=gb_handler_ld_a_r16mem,  [0x1B]=gb_handler_dec_r16,     [0x1C]=gb_handler_inc_r8,      [0x1D]=gb_handler_dec_r8,      [0x1E]=gb_handler_ld_r8_n8,    [0x1F]=gb_handler_rra,
+    [0x20]=gb_handler_jr_cc_n8,  [0x21]=gb_handler_ld_r16_n16,  [0x22]=gb_handler_ld_r16mem_a, [0x23]=gb_handler_inc_r16,     [0x24]=gb_handler_inc_r8,       [0x25]=gb_handler_dec_r8,      [0x26]=gb_handler_ld_r8_n8,    [0x27]=gb_handler_daa,         [0x28]=gb_handler_jr_cc_n8,     [0x29]=gb_handler_add_hl_r16,  [0x2A]=gb_handler_ld_a_r16mem,  [0x2B]=gb_handler_dec_r16,     [0x2C]=gb_handler_inc_r8,      [0x2D]=gb_handler_dec_r8,      [0x2E]=gb_handler_ld_r8_n8,    [0x2F]=gb_handler_cpl,
+    [0x30]=gb_handler_jr_cc_n8,  [0x31]=gb_handler_ld_r16_n16,  [0x32]=gb_handler_ld_r16mem_a, [0x33]=gb_handler_inc_r16,     [0x34]=gb_handler_inc_r8,       [0x35]=gb_handler_dec_r8,      [0x36]=gb_handler_ld_r8_n8,    [0x37]=gb_handler_scf,         [0x38]=gb_handler_jr_cc_n8,     [0x39]=gb_handler_add_hl_r16,  [0x3A]=gb_handler_ld_a_r16mem,  [0x3B]=gb_handler_dec_r16,     [0x3C]=gb_handler_inc_r8,      [0x3D]=gb_handler_dec_r8,      [0x3E]=gb_handler_ld_r8_n8,    [0x3F]=gb_handler_ccf,
+    [0x40]=gb_handler_ld_r8_r8,  [0x41]=gb_handler_ld_r8_r8,    [0x42]=gb_handler_ld_r8_r8,    [0x43]=gb_handler_ld_r8_r8,    [0x44]=gb_handler_ld_r8_r8,     [0x45]=gb_handler_ld_r8_r8,    [0x46]=gb_handler_ld_r8_r8,    [0x47]=gb_handler_ld_r8_r8,    [0x48]=gb_handler_ld_r8_r8,     [0x49]=gb_handler_ld_r8_r8,    [0x4A]=gb_handler_ld_r8_r8,     [0x4B]=gb_handler_ld_r8_r8,    [0x4C]=gb_handler_ld_r8_r8,    [0x4D]=gb_handler_ld_r8_r8,    [0x4E]=gb_handler_ld_r8_r8,    [0x4F]=gb_handler_ld_r8_r8,
+    [0x50]=gb_handler_ld_r8_r8,  [0x51]=gb_handler_ld_r8_r8,    [0x52]=gb_handler_ld_r8_r8,    [0x53]=gb_handler_ld_r8_r8,    [0x54]=gb_handler_ld_r8_r8,     [0x55]=gb_handler_ld_r8_r8,    [0x56]=gb_handler_ld_r8_r8,    [0x57]=gb_handler_ld_r8_r8,    [0x58]=gb_handler_ld_r8_r8,     [0x59]=gb_handler_ld_r8_r8,    [0x5A]=gb_handler_ld_r8_r8,     [0x5B]=gb_handler_ld_r8_r8,    [0x5C]=gb_handler_ld_r8_r8,    [0x5D]=gb_handler_ld_r8_r8,    [0x5E]=gb_handler_ld_r8_r8,    [0x5F]=gb_handler_ld_r8_r8,
+    [0x60]=gb_handler_ld_r8_r8,  [0x61]=gb_handler_ld_r8_r8,    [0x62]=gb_handler_ld_r8_r8,    [0x63]=gb_handler_ld_r8_r8,    [0x64]=gb_handler_ld_r8_r8,     [0x65]=gb_handler_ld_r8_r8,    [0x66]=gb_handler_ld_r8_r8,    [0x67]=gb_handler_ld_r8_r8,    [0x68]=gb_handler_ld_r8_r8,     [0x69]=gb_handler_ld_r8_r8,    [0x6A]=gb_handler_ld_r8_r8,     [0x6B]=gb_handler_ld_r8_r8,    [0x6C]=gb_handler_ld_r8_r8,    [0x6D]=gb_handler_ld_r8_r8,    [0x6E]=gb_handler_ld_r8_r8,    [0x6F]=gb_handler_ld_r8_r8,
+    [0x70]=gb_handler_ld_r8_r8,  [0x71]=gb_handler_ld_r8_r8,    [0x72]=gb_handler_ld_r8_r8,    [0x73]=gb_handler_ld_r8_r8,    [0x74]=gb_handler_ld_r8_r8,     [0x75]=gb_handler_ld_r8_r8,    [0x76]=gb_handler_halt,        [0x77]=gb_handler_ld_r8_r8,    [0x78]=gb_handler_ld_r8_r8,     [0x79]=gb_handler_ld_r8_r8,    [0x7A]=gb_handler_ld_r8_r8,     [0x7B]=gb_handler_ld_r8_r8,    [0x7C]=gb_handler_ld_r8_r8,    [0x7D]=gb_handler_ld_r8_r8,    [0x7E]=gb_handler_ld_r8_r8,    [0x7F]=gb_handler_ld_r8_r8,
+    [0x80]=gb_handler_add_a_r8,  [0x81]=gb_handler_add_a_r8,    [0x82]=gb_handler_add_a_r8,    [0x83]=gb_handler_add_a_r8,    [0x84]=gb_handler_add_a_r8,     [0x85]=gb_handler_add_a_r8,    [0x86]=gb_handler_add_a_r8,    [0x87]=gb_handler_add_a_r8,    [0x88]=gb_handler_adc_a_r8,     [0x89]=gb_handler_adc_a_r8,    [0x8A]=gb_handler_adc_a_r8,     [0x8B]=gb_handler_adc_a_r8,    [0x8C]=gb_handler_adc_a_r8,    [0x8D]=gb_handler_adc_a_r8,    [0x8E]=gb_handler_adc_a_r8,    [0x8F]=gb_handler_adc_a_r8,
+    [0x90]=gb_handler_sub_a_r8,  [0x91]=gb_handler_sub_a_r8,    [0x92]=gb_handler_sub_a_r8,    [0x93]=gb_handler_sub_a_r8,    [0x94]=gb_handler_sub_a_r8,     [0x95]=gb_handler_sub_a_r8,    [0x96]=gb_handler_sub_a_r8,    [0x97]=gb_handler_sub_a_r8,    [0x98]=gb_handler_sbc_a_r8,     [0x99]=gb_handler_sbc_a_r8,    [0x9A]=gb_handler_sbc_a_r8,     [0x9B]=gb_handler_sbc_a_r8,    [0x9C]=gb_handler_sbc_a_r8,    [0x9D]=gb_handler_sbc_a_r8,    [0x9E]=gb_handler_sbc_a_r8,    [0x9F]=gb_handler_sbc_a_r8,
+    [0xA0]=gb_handler_and_a_r8,  [0xA1]=gb_handler_and_a_r8,    [0xA2]=gb_handler_and_a_r8,    [0xA3]=gb_handler_and_a_r8,    [0xA4]=gb_handler_and_a_r8,     [0xA5]=gb_handler_and_a_r8,    [0xA6]=gb_handler_and_a_r8,    [0xA7]=gb_handler_and_a_r8,    [0xA8]=gb_handler_xor_a_r8,     [0xA9]=gb_handler_xor_a_r8,    [0xAA]=gb_handler_xor_a_r8,     [0xAB]=gb_handler_xor_a_r8,    [0xAC]=gb_handler_xor_a_r8,    [0xAD]=gb_handler_xor_a_r8,    [0xAE]=gb_handler_xor_a_r8,    [0xAF]=gb_handler_xor_a_r8,
+    [0xB0]=gb_handler_or_a_r8,   [0xB1]=gb_handler_or_a_r8,     [0xB2]=gb_handler_or_a_r8,     [0xB3]=gb_handler_or_a_r8,     [0xB4]=gb_handler_or_a_r8,      [0xB5]=gb_handler_or_a_r8,     [0xB6]=gb_handler_or_a_r8,     [0xB7]=gb_handler_or_a_r8,     [0xB8]=gb_handler_cp_a_r8,      [0xB9]=gb_handler_cp_a_r8,     [0xBA]=gb_handler_cp_a_r8,      [0xBB]=gb_handler_cp_a_r8,     [0xBC]=gb_handler_cp_a_r8,     [0xBD]=gb_handler_cp_a_r8,     [0xBE]=gb_handler_cp_a_r8,     [0xBF]=gb_handler_cp_a_r8,
+    [0xC0]=gb_handler_ret_cc,    [0xC1]=gb_handler_pop_r16,     [0xC2]=gb_handler_jp_cc_n16,   [0xC3]=gb_handler_jp_n16,      [0xC4]=gb_handler_call_cc_n16,  [0xC5]=gb_handler_push_r16,    [0xC6]=gb_handler_add_a_n8,    [0xC7]=gb_handler_rst,         [0xC8]=gb_handler_ret_cc,       [0xC9]=gb_handler_ret,         [0xCA]=gb_handler_jp_cc_n16,    [0xCB]=gb_handler_prefix,      [0xCC]=gb_handler_call_cc_n16, [0xCD]=gb_handler_call_n16,    [0xCE]=gb_handler_adc_a_n8,    [0xCF]=gb_handler_rst,
+    [0xD0]=gb_handler_ret_cc,    [0xD1]=gb_handler_pop_r16,     [0xD2]=gb_handler_jp_cc_n16,   [0xD3]=0,                      [0xD4]=gb_handler_call_cc_n16,  [0xD5]=gb_handler_push_r16,    [0xD6]=gb_handler_sub_a_n8,    [0xD7]=gb_handler_rst,         [0xD8]=gb_handler_ret_cc,       [0xD9]=gb_handler_reti,        [0xDA]=gb_handler_jp_cc_n16,    [0xDB]=0,                      [0xDC]=gb_handler_call_cc_n16, [0xDD]=0,                      [0xDE]=gb_handler_sbc_a_n8,    [0xDF]=gb_handler_rst,
+    [0xE0]=gb_handler_ldh_n8_a,  [0xE1]=gb_handler_pop_r16,     [0xE2]=gb_handler_ldh_c_a,     [0xE3]=0,                      [0xE4]=0,                       [0xE5]=gb_handler_push_r16,    [0xE6]=gb_handler_and_a_n8,    [0xE7]=gb_handler_rst,         [0xE8]=gb_handler_add_sp_e8,    [0xE9]=gb_handler_jp_hl,       [0xEA]=gb_handler_ld_n16mem_a,  [0xEB]=0,                      [0xEC]=0,                      [0xED]=0,                      [0xEE]=gb_handler_xor_a_n8,    [0xEF]=gb_handler_rst,
+    [0xF0]=gb_handler_ldh_a_n8,  [0xF1]=gb_handler_pop_r16,     [0xF2]=gb_handler_ldh_a_c,     [0xF3]=gb_handler_di,          [0xF4]=0,                       [0xF5]=gb_handler_push_r16,    [0xF6]=gb_handler_or_a_n8,     [0xF7]=gb_handler_rst,         [0xF8]=gb_handler_ld_hl_sp_e8,  [0xF9]=gb_handler_ld_sp_hl,    [0xFA]=gb_handler_ld_a_n16mem,  [0xFB]=gb_handler_ei,          [0xFC]=0,                      [0xFD]=0,                      [0xFE]=gb_handler_cp_a_n8,     [0xFF]=gb_handler_rst,
+};
  
- static const gb_opcode_handler_t uc_table[256]  = {
-    [0x00] = gb_handler_nop, [0x01] = gb_handler_ld_r16_n16, [0x02] = gb_handler_ld_r16mem_a, [0x03] = gb_handler_inc_r16, [0x04] = gb_handler_inc_r8, [0x05] = gb_handler_dec_r8, [0x06] = gb_handler_ld_r8_n8, [0x07] = gb_handler_rlca, [0x08] = gb_handler_ld_n16mem_sp, [0x09] = gb_handler_add_hl_r16, [0x0A] = gb_handler_ld_a_r16mem, [0x0B] = gb_handler_dec_r16, [0x0C] = gb_handler_inc_r8, [0x0D] = gb_handler_dec_r8, [0x0E] = gb_handler_ld_r8_n8, [0x0F] = gb_handler_rrca,
-    [0x10] = gb_handler_stop, [0x10] = gb_handler_stop, [0x11] = gb_handler_ld_r16_n16, [0x12] = gb_handler_ld_r16mem_a, [0x13] = gb_handler_inc_r16, [0x14] = gb_handler_inc_r8, [0x15] = gb_handler_dec_r8, [0x16] = gb_handler_ld_r8_n8, [0x17] = gb_handler_rla, [0x18] = gb_handler_jr_n8, [0x19] = gb_handler_add_hl_r16, [0x1A] = gb_handler_ld_a_r16mem, [0x1B] = gb_handler_dec_r16, [0x1C] = gb_handler_inc_r8, [0x1D] = gb_handler_dec_r8, [0x1E] = gb_handler_ld_r8_n8, [0x1F] = gb_handler_rra,
-    [0x20] = gb_handler_jr_cc_n8,
-    [0x21] = gb_handler_ld_r16_n16,
-    [0x22] = gb_handler_ld_r16mem_a,
-    [0x23] = gb_handler_inc_r16,
-    [0x24] = gb_handler_inc_r8,
-    [0x25] = gb_handler_dec_r8,
-    [0x26] = gb_handler_ld_r8_n8,
-    [0x27] = gb_handler_daa,
-    [0x28] = gb_handler_jr_cc_n8,
-    [0x29] = gb_handler_add_hl_r16,
-    [0x2A] = gb_handler_ld_a_r16mem,
-    [0x2B] = gb_handler_dec_r16,
-    [0x2C] = gb_handler_inc_r8,
-    [0x2D] = gb_handler_dec_r8,
-    [0x2E] = gb_handler_ld_r8_n8,
-    [0x2F] = gb_handler_cpl,
-    [0x76] = gb_handler_halt,
-   };
 
- static const gb_opcode_handler_t cb_table[256] = {
+ const gb_opcode_handler_t cb_table[256] = {
 
  };
 
