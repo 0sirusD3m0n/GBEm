@@ -36,7 +36,7 @@ uint8_t gb_handler_ld_r16mem_a(gb_t *gb) {
 // LD A, [r16mem]
 uint8_t gb_handler_ld_a_r16mem(gb_t *gb) {
     uint8_t src = (gb->cpu.IR >> 4) & 0x03;
-    write_r8(gb, GB_REGISTER_A, read_r16mem(gb, src));
+    write_r8(gb, GB_REGISTER_A, mem_read(gb, read_r16mem(gb, src)));
     return 2;
 }
 

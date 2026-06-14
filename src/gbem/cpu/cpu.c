@@ -153,16 +153,18 @@ uint16_t read_r16mem(gb_t *gb, uint8_t idx) {
    mem_write(gb, --gb->cpu.SP, val & 0xFF);
  }
 
- void cpu_tick(gb_t *gb) {
+ uint8_t cpu_tick(gb_t *gb) {
+   uint8_t count = 0;
    //process interupts
 
    //set interupts if ime_pending == 1
    if(gb->cpu.ime_pending) gb->cpu.ime = true;
 
    // Fetch the next opcode.
-   uint8_t opcode = fetch(gb);
+   gb->cpu.IR = fetch(gb);
 
    //process task
    gb_opcode_handler_t handler = uc_table[gb->cpu.IR];
-   if(handler) handler(gb);
+   if(handler) {count = handler(gb);}
+   return count;
  }

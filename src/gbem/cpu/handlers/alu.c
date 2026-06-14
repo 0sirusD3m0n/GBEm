@@ -55,7 +55,7 @@ uint8_t gb_handler_inc_r8(gb_t *gb) {
     uint16_t val = data + 1;
 
     gb->cpu.AF.negative = 0;
-    gb->cpu.AF.zero = val == 0;
+    gb->cpu.AF.zero = (val & 0xFF) == 0;
     gb->cpu.AF.half_carry = (data & 0x0F) + 1 > 0x0F;
 
     write_r8(gb, idx, val & 0xFF);
@@ -85,7 +85,7 @@ uint8_t gb_handler_add_a_r8(gb_t *gb) {
 
     uint16_t result = a_data + src_data;
 
-    gb->cpu.AF.zero = result & 0xFF == 0;
+    gb->cpu.AF.zero = (result & 0xFF) == 0;
     gb->cpu.AF.negative = 0;
     gb->cpu.AF.half_carry = (a_data & 0x0F) + (src_data & 0x0F) > 0x0F;
     gb->cpu.AF.carry  = result > 0xFF;
@@ -103,7 +103,7 @@ uint8_t gb_handler_adc_a_r8(gb_t *gb) {
 
     uint16_t result = (a_data + src_data) + gb->cpu.AF.carry;
 
-    gb->cpu.AF.zero = result & 0xFF == 0;
+    gb->cpu.AF.zero = (result & 0xFF) == 0;
     gb->cpu.AF.negative = 0;
     gb->cpu.AF.half_carry = (a_data & 0x0F) + (src_data & 0x0F) + gb->cpu.AF.carry > 0x0F;
     gb->cpu.AF.carry  = result > 0xFF;

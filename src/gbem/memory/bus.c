@@ -11,7 +11,15 @@
 #include "gbem/gb.h"
 #include "bus.h"
 
+#ifdef TESTING 
+static uint8_t test_ram[0x10000];
+#endif
+
 uint8_t mem_read(gb_t * gb, uint16_t addr) {
+    #ifdef TESTING
+    return test_ram[addr];
+    #endif
+
     if (addr <= GB_CART_ROM_END) return                                         0xFF; //TODO: Update to rom_read in cart.c
     else if (addr >= GB_VRAM_START && addr <= GB_VRAM_END) return               0xFF; // TODO: Update to ppu_vram_read() in ppu.c
     else if (addr >= GB_CART_RAM_START && addr <= GB_CART_RAM_END) return       0xFF; // TODO: Update to cart_ram_read in cart.c
@@ -25,6 +33,11 @@ uint8_t mem_read(gb_t * gb, uint16_t addr) {
     }
 
 void mem_write(gb_t *gb, uint16_t addr, uint8_t value) {
+    #ifdef TESTING
+    test_ram[addr] = value;
+    return;
+    #endif
+
     if (addr <= GB_CART_ROM_END) return; //TODO: Update to mbc_write in cart.c
     else if (addr >= GB_VRAM_START && addr <= GB_VRAM_END) return; // TODO: Update to ppu_vram_write in cart.c
     else if (addr >= GB_CART_RAM_START && addr <= GB_CART_RAM_END) return; // TODO: Update to cart_ram_write in cart.c

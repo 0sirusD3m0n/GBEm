@@ -73,7 +73,7 @@ typedef struct gb_t gb_t;
  // Function declaration
  uint8_t fetch (gb_t *gb);
  uint16_t fetch16(gb_t *gb);
- uint8_t cpu_step(gb_t *gb);
+ uint8_t cpu_tick(gb_t *gb);
  void write_r8(gb_t *gb, uint8_t idx, uint8_t value);
  uint8_t read_r8(gb_t *gb, uint8_t idx);
  uint16_t read_r16(gb_t *gb, uint8_t idx);

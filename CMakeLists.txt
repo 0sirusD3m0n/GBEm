@@ -43,3 +43,5 @@ target_include_directories(gbem_tests PRIVATE
     ${cjson_SOURCE_DIR}
 )
 target_link_libraries(gbem_tests PRIVATE cjson)
+
+target_compile_definitions(gbem_tests PRIVATE TESTING TEST_DATA_PATH="${CMAKE_SOURCE_DIR}/tests/data/sst/sm83/v1/")
