@@ -4,8 +4,10 @@
  * and "class" objects for the GB CPU
  */
 
+ #include <string.h>
+ #include <stdlib.h>
  #include <stdint.h>
- #include "./include/gb.h"
+ #include "gbem/gb.h"
 
  static uint8_t* registers;
 
@@ -17,13 +19,10 @@
   * Allocates memory for the CPU object and the register array
   * 
   */
- void GB_INIT(GB_CPU* cpu) {
-    cpu = malloc(sizeof(GB_CPU));
-
-    cpu->registers = malloc (sizeof(uint8_t) * NUM_REGISTERS);
+ void GB_INIT(gb_t* gb) {
+    memset(gb, 0, sizeof(gb_t));
  }
 
- void GB_DESTROY(GB_CPU* cpu)  {
-    free(cpu-registers);
+ void GB_DESTROY(gb_cpu_t* cpu)  {
     free(cpu);
  }
