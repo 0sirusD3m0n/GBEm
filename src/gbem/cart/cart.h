@@ -13,6 +13,8 @@
 #include <stdbool.h>
 #include "gbem/gb.h"
 
+typedef struct gb_t gb_t;
+
 typedef enum {
     GB_MBC_TYPE_NONE,
     GB_MBC_TYPE_MBC1,

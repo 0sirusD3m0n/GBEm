@@ -25,7 +25,7 @@
  */
 
  
- typedef struct {
+ typedef struct gb_t {
     gb_cpu_t cpu;
     gb_ram_t ram;
     gb_cart_t cart;

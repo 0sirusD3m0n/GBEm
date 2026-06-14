@@ -2,8 +2,9 @@
 #define GB_HANDLERS_H
 
 #include <stdint.h>
-#include <gbem/gb.h>
 #include <gbem/cpu/cpu.h>
+
+typedef struct gb_t gb_t;
 
 //misc
 uint8_t gb_handler_nop(gb_t *gb);

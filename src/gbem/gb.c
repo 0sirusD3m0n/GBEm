@@ -4,6 +4,8 @@
  * and "class" objects for the GB CPU
  */
 
+ #include <string.h>
+ #include <stdlib.h>
  #include <stdint.h>
  #include "gbem/gb.h"
 
@@ -18,7 +20,7 @@
   * 
   */
  void GB_INIT(gb_t* gb) {
-    memset(*gb, 0, sizeof(gb_t));
+    memset(gb, 0, sizeof(gb_t));
  }
 
  void GB_DESTROY(gb_cpu_t* cpu)  {

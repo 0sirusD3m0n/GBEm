@@ -13,9 +13,8 @@
  
  #include <stdint.h>
  #include <stdbool.h>
- #include "gbem/memory/bus.h"
- #include "gbem/gb.h"
- 
+
+typedef struct gb_t gb_t;
 
  #define GB_CPU_CLOCK_HZ        4194304
  #define GB_CPU_COCCK_M_HZ      1048576
@@ -70,7 +69,7 @@
  typedef uint8_t (*gb_opcode_handler_t)(gb_t *gb);
 
  extern const gb_opcode_handler_t cb_table[256];
- 
+
  // Function declaration
  uint8_t fetch (gb_t *gb);
  uint16_t fetch16(gb_t *gb);
@@ -78,6 +77,7 @@
  void write_r8(gb_t *gb, uint8_t idx, uint8_t value);
  uint8_t read_r8(gb_t *gb, uint8_t idx);
  uint16_t read_r16(gb_t *gb, uint8_t idx);
+ uint16_t read_r16mem(gb_t *gb, uint8_t idx);
  void write_r16(gb_t *gb, uint8_t idx, uint16_t value);
  uint16_t read_r16_stk(gb_t *gb, uint8_t idx);
  void write_r16_stk(gb_t *gb, uint8_t idx, uint16_t value);

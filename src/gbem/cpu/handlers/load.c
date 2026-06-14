@@ -1,5 +1,6 @@
+#include "gbem/gb.h"
 #include "handlers.h"
-#include "./cpu.h"
+#include "../cpu.h"
 
 // LD r8, r8
 uint8_t gb_handler_ld_r8_r8(gb_t *gb) {

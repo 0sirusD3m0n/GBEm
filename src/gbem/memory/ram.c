@@ -1,3 +1,4 @@
+#include "gbem/gb.h"
 #include "ram.h"
 
 

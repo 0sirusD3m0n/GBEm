@@ -1,10 +1,12 @@
-
+#pragma once
+    
 #include <stdint.h>
-#include "gbem/gb.h"
 #include "gbem/memory/bus.h"
 
 #define GB_WRAM_SIZE 0x2000
 #define GB_HRAM_SIZE 0x7F
+
+typedef struct gb_t gb_t;
 
 typedef struct {
     uint8_t wram[GB_WRAM_SIZE];

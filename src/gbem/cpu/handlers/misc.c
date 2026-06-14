@@ -1,5 +1,6 @@
 
 #include "handlers.h"
+#include "gbem/gb.h"
 
 uint8_t gb_handler_nop(gb_t *gb) {
     return 1;

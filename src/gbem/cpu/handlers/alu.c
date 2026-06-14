@@ -1,3 +1,4 @@
+#include "gbem/gb.h"
 #include "handlers.h"
 
 uint8_t gb_handler_adc_r8(gb_t *gb) {

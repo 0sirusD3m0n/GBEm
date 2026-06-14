@@ -3,7 +3,7 @@
 #define GBEM_BUS_H
 #include <stdint.h>
 
-#include "gbem/gb.h"
+typedef struct gb_t gb_t;
 
 #define GB_CART_ROM_START   0x0000
 #define GB_CART_ROM_END     0x7FFF

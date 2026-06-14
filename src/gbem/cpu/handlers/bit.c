@@ -1,3 +1,4 @@
+#include "gbem/gb.h"
 #include "handlers.h"
 
 uint8_t gb_handler_rlca(gb_t *gb) {
