@@ -156,6 +156,18 @@ uint16_t read_r16mem(gb_t *gb, uint8_t idx) {
  uint8_t cpu_tick(gb_t *gb) {
    uint8_t count = 0;
    //process interupts
+   uint8_t pending = gb->interrupts.IE & gb->interrupts.IF;
+   if (gb->cpu.ime && pending) {
+      gb->cpu.ime = 0;
+      stack_push(gb, gb->cpu.PC);
+      if (pending & 0x01) { gb->cpu.PC = GB_INTERRUPT_VBLANK; gb->interrupts.if_flags.vblank = 0; }
+      else if (pending & 0x02) { gb->cpu.PC = GB_INTERRUPT_STAT; gb->interrupts.if_flags.lcd =0; }
+      else if (pending & 0x04) { gb->cpu.PC = GB_INTERRUPT_TIMER; gb->interrupts.if_flags.timer = 0; }
+      else if (pending & 0x08) { gb->cpu.PC = GB_INTERRUPT_SERIAL; gb->interrupts.if_flags.serial = 0; }
+      else if (pending & 0x10) { gb->cpu.PC = GB_INTERRUPT_JP; gb->interrupts.if_flags.joypad = 0; } 
+
+      return 5;
+   }
 
    //set interupts if ime_pending == 1
    if(gb->cpu.ime_pending) gb->cpu.ime = true;
