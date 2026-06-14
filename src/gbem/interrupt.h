@@ -28,3 +28,8 @@ typedef struct {
     };
 } gb_interrupt_t;
 
+uint8_t interrupt_read_if(gb_t *gb);
+uint8_t interrupt_read_ie(gb_t *gb);
+void interrupt_write_if(gb_t *gb, uint8_t value);
+void interrupt_write_ie(gb_t *gb, uint8_t value);
+

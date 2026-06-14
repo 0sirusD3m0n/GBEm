@@ -9,6 +9,7 @@
  */
 
 #include "gbem/gb.h"
+#include "gbem/interrupt.h"
 #include "bus.h"
 
 #ifdef TESTING 
@@ -26,9 +27,10 @@ uint8_t mem_read(gb_t * gb, uint16_t addr) {
     else if (addr >= GB_WRAM_START && addr <= GB_WRAM_END) { return               ram_wram_read(&gb->ram, addr); }
     else if (addr >= GB_ECHO_START && addr <= GB_ECHO_END) { return               ram_wram_read(&gb->ram, addr - GB_ECHO_OFFSET); }
     else if (addr >= GB_OAM_START && addr <= GB_OAM_END) return                 0xFF; // TODO: Update to oam_read in ppu.c
+    else if (addr == GB_IF_REG) return                                             interupt_read_if(gb);
     else if (addr >= GB_IO_REG_START && addr <= GB_IO_REG_END) return           0xFF; // TODO: Update to io_read in joypad.c 
     else if (addr >= GB_HRAM_START && addr <= GB_HRAM_END) { return               ram_hram_read(&gb->ram, addr);  }
-    else if (addr == GB_IE_REG) return                                          0xFF; // TODO: Update to interupt_read() in interupt.c
+    else if (addr == GB_IE_REG) return                                            interrupt_read_ie(gb);
     else return 0xFF; // unusable region 0xFEA0-0xFEFF and any other unmapped addresses
     }
 
@@ -44,8 +46,9 @@ void mem_write(gb_t *gb, uint16_t addr, uint8_t value) {
     else if (addr >= GB_WRAM_START && addr <= GB_WRAM_END)  { ram_wram_write(&gb->ram, addr, value); return; }
     else if (addr >= GB_ECHO_START && addr <= GB_ECHO_END) { ram_wram_write(&gb->ram, addr - GB_ECHO_OFFSET, value); return; }
     else if (addr >= GB_OAM_START && addr <= GB_OAM_END) return; // TODO: Update to oam_write in ppu.c
+    else if (addr == GB_IF_REG) { interrupt_write_if(gb, value); return; }
     else if (addr >= GB_IO_REG_START && addr <= GB_IO_REG_END) return; // TODO: Update to io_write in joypad.c 
     else if (addr >= GB_HRAM_START && addr <= GB_HRAM_END) { ram_hram_write(&gb->ram, addr, value); return; }
-    else if (addr == GB_IE_REG) return; // TODO: Update to interupt_write() in interupt.c
+    else if (addr == GB_IE_REG) { interrupt_write_ie(gb, value); return; }
     else return; 
 }

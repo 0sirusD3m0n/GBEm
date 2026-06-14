@@ -34,6 +34,12 @@ typedef struct gb_t gb_t;
  #define GB_REGISTER16_HL 0x02
  #define GB_REGISTER16_SP 0x03
 
+ #define GB_INTERRUPT_VBLANK 0x40
+ #define GB_INTERRUPT_STAT   0x48
+ #define GB_INTERRUPT_TIMER  0x50
+ #define GB_INTERRUPT_SERIAL 0x58
+ #define GB_INTERRUPT_JP     0x60
+
  typedef union {
     uint16_t word;
     struct {
