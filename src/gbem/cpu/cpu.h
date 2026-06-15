@@ -40,6 +40,8 @@ typedef struct gb_t gb_t;
  #define GB_INTERRUPT_SERIAL 0x58
  #define GB_INTERRUPT_JP     0x60
 
+ #define GB_NUM_INTERRUPTS  0x05;
+
  typedef union {
     uint16_t word;
     struct {
