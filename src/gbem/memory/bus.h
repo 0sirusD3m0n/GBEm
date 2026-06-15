@@ -21,7 +21,6 @@ typedef struct gb_t gb_t;
 #define GB_IO_REG_END       0xFF7F
 #define GB_HRAM_START       0xFF80
 #define GB_HRAM_END         0xFFFE
-#define GB_IF_REG           0xFF0F
 #define GB_IE_REG           0xFFFF
 
 #define GB_ECHO_OFFSET      0x2000

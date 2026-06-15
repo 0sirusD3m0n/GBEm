@@ -1,7 +1,10 @@
-#include "gbem/gb.h"
+
+#ifndef GB_INTERRUPT_H
+#define GB_INTERRUPT_H
+
 #include <stdint.h>
 
-
+typedef struct gb_t gb_t;
 
 typedef struct {
     union {
@@ -33,3 +36,4 @@ uint8_t interrupt_read_ie(gb_t *gb);
 void interrupt_write_if(gb_t *gb, uint8_t value);
 void interrupt_write_ie(gb_t *gb, uint8_t value);
 
+#endif
