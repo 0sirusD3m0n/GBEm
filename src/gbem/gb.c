@@ -21,6 +21,7 @@
   */
  void GB_INIT(gb_t* gb) {
     memset(gb, 0, sizeof(gb_t));
+    timer_init(gb);
  }
 
  void GB_DESTROY(gb_cpu_t* cpu)  {
