@@ -19,6 +19,7 @@
  #include "gbem/cart/cart.h"
  #include "gbem/interrupt.h"
  #include "gbem/timer.h"
+ #include "gbem/ppu/ppu.h"
  
  /* TODO: MOVE TO PPU WHEN FINISHED
     #define HORIZONTAL_SYNC_KHZ 9.198
@@ -32,6 +33,7 @@
     gb_cart_t cart;
     gb_interrupt_t interrupts;
     gb_timer_t timer;
+    gb_ppu_t ppu;
  } gb_t;
 
 typedef enum {

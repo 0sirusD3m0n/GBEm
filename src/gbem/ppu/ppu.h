@@ -1,23 +1,39 @@
 #include <stdint.h>
 
-typedef enum {
-    mode_0,
-    mode_1,
-    mode_2,
-    mode_3,
-} mode;
+typedef struct gb_t gb_t;
+
+typedef struct {
+    uint8_t y_pos;
+    uint8_t x_pos;
+    uint8_t index;
+    union {
+        uint8_t flags;
+        struct {
+            uint8_t : 4;
+            uint8_t dmb_palette : 1;
+            uint8_t x_flip : 1;
+            uint8_t y_flip : 1;
+            uint8_t priority : 1;
+        };
+    };
+} gb_oam_data_t;
 
 typedef struct {
     uint8_t vram[8192];
-    uint8_t oam[160];
+    uint8_t frame_buffer[160 * 144];
+    gb_oam_data_t oam[40];
+    gb_oam_data_t oam_buffer[10];
     uint8_t LY;
     uint8_t LYC;
     uint8_t SCY;
     uint8_t SCX;
     uint8_t WX;
     uint8_t WY;
-    uint8_t ppu_dots;
-    mode mode;
+    uint16_t ppu_dots;
+    uint8_t oam_index;
+    uint8_t oam_buffer_count;
+    uint8_t oam_dots;
+    uint8_t oam_index;
     union {
         uint8_t bg_pallet_data;
         struct {
@@ -70,3 +86,6 @@ typedef struct {
         };
     };
 } gb_ppu_t;
+
+void ppu_tick(gb_t *gb, uint8_t m_cycles);
+void ppu_init(gb_ppu_t *ppu);
