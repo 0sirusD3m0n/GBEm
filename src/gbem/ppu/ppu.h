@@ -2,6 +2,18 @@
 
 typedef struct gb_t gb_t;
 
+typedef enum {
+    INIT,
+    FETCH_RENDER,
+    OBJECT_FETCH
+} gb_ppu_mode3_state_e;
+
+typedef struct {
+    uint8_t color_id;
+    bool dmg_palette;
+    bool priority;
+} gb_oam_fifo_pixel_t;
+
 typedef struct {
     uint8_t y_pos;
     uint8_t x_pos;
@@ -18,6 +30,21 @@ typedef struct {
     };
 } gb_oam_data_t;
 
+typedef struct gb_mode3_state_t{
+    gb_ppu_mode3_state_e state;
+    uint8_t fetch_dots;
+    uint8_t fetcher_tile_x;
+    uint8_t bg_fifo[16];
+    uint8_t bg_fifo_index;
+    uint8_t bg_fifo_count;
+    gb_oam_fifo_pixel_t object_fifo[16];
+    uint8_t object_fifo_head;
+    uint8_t object_search_index;
+    uint8_t tile_row;
+    uint8_t tile_pixel_row;
+    uint8_t tile_col;
+} gb_mode3_state_t;
+
 typedef struct {
     uint8_t vram[8192];
     uint8_t frame_buffer[160 * 144];
@@ -29,13 +56,18 @@ typedef struct {
     uint8_t SCX;
     uint8_t WX;
     uint8_t WY;
+    uint8_t DMA;
+    uint8_t dma_dots;
+    bool dma_active;
     uint16_t ppu_dots;
     uint8_t oam_index;
     uint8_t oam_buffer_count;
     uint8_t oam_dots;
     uint8_t oam_index;
+    uint8_t current_x;
+    gb_mode3_state_t mode3_state;
     union {
-        uint8_t bg_pallet_data;
+        uint8_t BGP;
         struct {
             uint8_t id_0 : 2;
             uint8_t id_1 : 2;
@@ -79,7 +111,7 @@ typedef struct {
             uint8_t obj_enable : 1;
             uint8_t obj_size : 1;
             uint8_t bg_tile_map : 1;
-            uint8_t bfg_window_tiles : 1;
+            uint8_t bg_window_tiles : 1;
             uint8_t window_enable : 1;
             uint8_t window_tile_map : 1;
             uint8_t ppu_enable : 1;
@@ -89,3 +121,9 @@ typedef struct {
 
 void ppu_tick(gb_t *gb, uint8_t m_cycles);
 void ppu_init(gb_ppu_t *ppu);
+uint8_t vram_read(gb_t *gb, uint16_t addr);
+void vram_write(gb_t *gb, uint16_t addr, uint8_t value);
+uint8_t oam_read(gb_t *gb, uint16_t addr);
+void oam_write(gb_t *gb, uint16_t addr, uint8_t value);
+uint8_t ppu_register_read(gb_t *gb, uint16_t addr);
+void ppu_register_write(gb_t *gb, uint16_t addr, uint8_t value);
