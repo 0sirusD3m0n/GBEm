@@ -12,14 +12,28 @@
 #define VRAM_START 0x8000
 #define OAM_START  0xFE00
 
-void compute_y_offsets(gb_t *gb) {
-    uint8_t background_y = (gb->ppu.LY + gb->ppu.SCY) % 256;
-    gb->ppu.mode3_state.tile_row = background_y / 8;
-    gb->ppu.mode3_state.tile_pixel_row = background_y % 8;
+void compute_y_offsets(gb_ppu_t *ppu) {
+    uint8_t background_y = (ppu->LY + ppu->SCY) % 256;
+    ppu->mode3_state.tile_row = background_y / 8;
+    ppu->mode3_state.tile_pixel_row = background_y % 8;
 }
 
-void compute_x_col(gb_t *gb) {
-    gb->ppu.mode3_state.tile_col = (gb->ppu.mode3_state.fetcher_tile_x + (gb->ppu.SCX/8)) & 0x1F;
+void compute_x_col(gb_ppu_t *ppu) {
+    ppu->mode3_state.tile_col = (ppu->mode3_state.fetcher_tile_x + (ppu->SCX/8)) & 0x1F;
+}
+
+uint8_t pop_bg_fifo(gb_mode3_state_t *m3) {
+    uint8_t val = m3->bg_fifo[m3->bg_fifo_index++];
+    if(--m3->bg_fifo_count == 0) m3->bg_fifo_index = 0;
+    return val;
+}
+
+gb_oam_fifo_pixel_t pop_obj_pixel(gb_mode3_state_t *m3) {
+    uint8_t head = m3->object_fifo_head;
+    gb_oam_fifo_pixel_t pixel = m3->object_fifo[head];
+    m3->object_fifo[head] = (gb_oam_fifo_pixel_t){0};
+    m3->object_fifo_head = (head + 1) % 16;
+    return pixel;
 }
 
 void advance_bg_fetch(gb_t *gb) {
@@ -53,6 +67,18 @@ void advance_bg_fetch(gb_t *gb) {
 }
 
 void render_pixel(gb_t *gb) {
+    uint8_t bg_pixel = pop_bg_fifo(&gb->ppu.mode3_state);
+    gb_oam_fifo_pixel_t obj_pixel = pop_obj_pixel(&gb->ppu.mode3_state);
+
+    bool use_object = false;
+
+    if (obj_pixel.color_id != 0 && !(obj_pixel.priority == 1 && bg_pixel != 0)) {
+        use_object = true;
+    }
+
+    if(use_object) {
+        
+    }
 
 }
 
@@ -61,7 +87,7 @@ void ppu_draw(gb_t *gb) {
         case INIT:
         //Set all of mode3 state to 0. This effectively resets the state on entering mode 3, since we don't need anything from before
         memset(&gb->ppu.mode3_state, 0, sizeof(gb->ppu.mode3_state));
-        compute_y_offsets(gb);
+        compute_y_offsets(&gb->ppu);
         if(gb->ppu.mode3_state.fetch_dots < 8) advance_bg_fetch(gb);
         //perform check for objects and update state
         break;
